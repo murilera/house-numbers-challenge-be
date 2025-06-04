@@ -1,0 +1,145 @@
+{
+	"info": {
+		"_postman_id": "f8c898ec-eb2a-4ba6-b957-163eba8c162c",
+		"name": "House Numbers Challenge API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23555544",
+		"_collection_link": "https://murilera11.postman.co/workspace/house-numbers~e0799724-54ed-479d-91a9-8998f529ebab/collection/23555544-f8c898ec-eb2a-4ba6-b957-163eba8c162c?action=share&source=collection_link&creator=23555544"
+	},
+	"item": [
+		{
+			"name": "Liveness check",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/liveness-check",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"liveness-check"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const authData = pm.response.json();\r",
+							"pm.environment.set(\"token\",authData.access_token);\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"admin\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/v1/auth/login",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Snippet",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"text\": \"This is a long blog post draft about how to write clean code using TDD principles.\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/v1/api/snippets",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"v1",
+						"api",
+						"snippets"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Snippet by ID",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/v1/api/snippets/:id",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"v1",
+						"api",
+						"snippets",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "683fbafe54113f846ac3f6f4"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

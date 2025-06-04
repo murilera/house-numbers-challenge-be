@@ -1,0 +1,33 @@
+services:
+  api:
+    build: .
+    ports:
+      - '3000:3000'
+    environment:
+      - NODE_ENV=development
+      - MONGO_URI=mongodb://mongo:27017/snippets
+      - AI_PROVIDER=gemini
+      - AI_PROVIDER_KEY=fake-key
+      - JWT_SECRET=your-key
+    depends_on:
+      - mongo
+    networks:
+      - app-network
+    command: sh -c "npm run test && npm run build && node dist/server.js"
+
+  mongo:
+    image: mongo:latest
+    ports:
+      - '27017:27017'
+    networks:
+      - app-network
+    volumes:
+      - mongo-data:/data/db
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  mongo-data:
+    driver: local

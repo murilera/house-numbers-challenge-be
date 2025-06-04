@@ -8,6 +8,7 @@ interface Config {
   mongoUri: string;
   aiProvider: string;
   aiProviderKey: string;
+  jwtSecret: string;
 }
 
 const config: Config = {
@@ -16,6 +17,7 @@ const config: Config = {
   mongoUri: process.env.MONGO_URI || 'mongodb://localhost:27017/snippets',
   aiProvider: process.env.AI_PROVIDER || 'openai',
   aiProviderKey: process.env.AI_PROVIDER_KEY || 'fake-key',
+  jwtSecret: process.env.JWT_SECRET || 'super-secret',
 };
 
 export default config;

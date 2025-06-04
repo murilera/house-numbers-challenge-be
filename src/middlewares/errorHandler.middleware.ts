@@ -14,6 +14,7 @@ export const errorHandler = (
 ) => {
   logger.error(err);
   res.status(err.status || 500).json({
+    error: err.name || 'Error',
     message: err.message || 'Internal Server Error',
   });
 };

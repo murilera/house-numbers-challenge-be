@@ -9,6 +9,7 @@ interface Config {
   aiProvider: string;
   aiProviderKey: string;
   jwtSecret: string;
+  frontendUrl: string;
 }
 
 const config: Config = {
@@ -18,6 +19,7 @@ const config: Config = {
   aiProvider: process.env.AI_PROVIDER || 'openai',
   aiProviderKey: process.env.AI_PROVIDER_KEY || 'fake-key',
   jwtSecret: process.env.JWT_SECRET || 'super-secret',
+  frontendUrl: process.env.FRONTEND_URL || 'http://localhost:3030',
 };
 
 export default config;

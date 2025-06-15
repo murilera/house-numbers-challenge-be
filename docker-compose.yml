@@ -9,10 +9,11 @@ services:
       - AI_PROVIDER=gemini
       - AI_PROVIDER_KEY=fake-key
       - JWT_SECRET=your-key
+      - FRONTEND_URL=http://localhost:3030
     depends_on:
       - mongo
     networks:
-      - app-network
+      - default
     command: sh -c "npm run test && npm run build && node dist/server.js"
 
   mongo:
@@ -20,13 +21,14 @@ services:
     ports:
       - '27017:27017'
     networks:
-      - app-network
+      - default
     volumes:
       - mongo-data:/data/db
 
 networks:
-  app-network:
-    driver: bridge
+  default:
+    external: true
+    name: shared-network
 
 volumes:
   mongo-data:

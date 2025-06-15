@@ -8,138 +8,214 @@
 	},
 	"item": [
 		{
-			"name": "Liveness check",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{base_url}}/liveness-check",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"liveness-check"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get Token",
-			"event": [
+			"name": "Live",
+			"item": [
 				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"const authData = pm.response.json();\r",
-							"pm.environment.set(\"token\",authData.access_token);\r",
-							""
+					"name": "Liveness check",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/liveness-check",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"liveness-check"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Token",
+			"item": [
+				{
+					"name": "Get Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const authData = pm.response.json();\r",
+									"pm.environment.set(\"token\",authData.access_token);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"admin@mail.com\",\r\n    \"password\": \"password\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/auth/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Check token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/auth/me",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Expire Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const authData = pm.response.json();\r",
+									"pm.environment.set(\"token\",authData.access_token);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"admin@mail.com\",\r\n    \"password\": \"password\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/auth/logout",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Snippets",
+			"item": [
+				{
+					"name": "Create Snippet",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
 						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"username\": \"admin\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"text\": \"This is a long blog post draft about how to write clean code using TDD principles.\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/snippets",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"snippets"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "{{base_url}}/api/v1/auth/login",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"auth",
-						"login"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Create Snippet",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{token}}",
-							"type": "string"
+				{
+					"name": "Get Snippet by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/snippets/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"snippets",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "684e3792013fb37b33a83025"
+								}
+							]
 						}
-					]
-				},
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n  \"text\": \"This is a long blog post draft about how to write clean code using TDD principles.\"\n}"
-				},
-				"url": {
-					"raw": "{{base_url}}/v1/api/snippets",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"v1",
-						"api",
-						"snippets"
-					]
+					},
+					"response": []
 				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get Snippet by ID",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{token}}",
-							"type": "string"
-						}
-					]
-				},
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{base_url}}/v1/api/snippets/:id",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"v1",
-						"api",
-						"snippets",
-						":id"
-					],
-					"variable": [
-						{
-							"key": "id",
-							"value": "683fbafe54113f846ac3f6f4"
-						}
-					]
-				}
-			},
-			"response": []
+			]
 		}
 	]
 }

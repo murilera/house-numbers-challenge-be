@@ -73,6 +73,24 @@ GOOGLE_AI_API_KEY=your_google_ai_api_key
 
 1. Build and start the containers:
    ```bash
+   docker network create shared-network
+   docker-compose up --build
+   ```
+
+### Executing both backend and frontent
+
+1. Create docker network:
+
+```bash
+docker network create shared-network
+```
+
+2. Start backend:
+   ```bash
+   docker-compose up --build
+   ```
+3. Start frontend:
+   ```bash
    docker-compose up --build
    ```
 
